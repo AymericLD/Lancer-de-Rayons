@@ -13,13 +13,10 @@
 
 
 using namespace std;
-class Point
-{public:
-    double x;
-    double y;
-    double z;
-};
+
+
 // Classe source
+
 class Source 
 {public:
     Point P;
@@ -27,21 +24,100 @@ class Source
     uint8_t g;
     uint8_t b;
 };
-class Triangle
-{public:
-    Point A;
-    Point B;
-    Point C;
-};
+
 class Maillage
 {public:
     int N; // Nb de triangles
     vector<Triangle> Triangles(N);
 };
 
-class Rayon{
-
+class Point
+{
+    public:
+    double x;
+    double y;
+    double z;
+    Point() {x=0;y=0;z=0;};
+    Point (double X, double Y, double Z)
+    {
+        x=X;
+        y=Y;
+        z=Z;
+    };
 };
+
+
+class Ray
+{
+    public:
+    Point S;
+    double x,y,z;
+    Ray() 
+    {
+        S.x=0;
+        S.y=0;
+        S.z=0;
+        x=0;
+        y=0;
+        z=0;
+    }
+    Ray(Point P,double* v)
+    {
+        S=P;
+        x=v[1];
+        y=v[2];
+        z=v[3];
+    }
+};
+
+class Sphere
+{
+    public:
+    Point C;
+    double r;
+    Point intersection(Ray R);
+    Sphere()
+    {
+        C.x=0;
+        C.y=0;
+        C.z=0;
+        r=1;
+    }
+    Sphere (Point P,double R)
+    {
+        C=P;
+        r=R;
+    }
+};
+
+class Triangle
+{
+    public:
+    Point A;
+    Point B;
+    Point C;
+    Point Intersection(Ray R);
+    Triangle ()
+    {
+        A.x=0;
+        A.y=0;
+        A.z=0;
+        B.x=0;
+        B.y=0;
+        B.z=0;
+        C.x=0;
+        C.y=0;
+        C.z=0;
+    }
+    Triangle(Point a, Point b, Point c)
+    {
+        A=a;
+        B=b;
+        C=c;
+    }
+};
+
+
 
 class Pixel
 {
@@ -68,7 +144,8 @@ p.z = 0;
 Pixel::Pixel() : centre(p), largeur (0), rgb((0,0,0));
 
 
-class Grille{
+class Grille
+{
 
     public :
     int l_p;
@@ -78,7 +155,10 @@ class Grille{
     public:
     Grille(l,h,t);
 };
-Grille::Grille(l,h,t) {
+
+Grille::Grille(l,h,t)
+
+{
     l_p(l);
     h_p(h);
     taille(t);
