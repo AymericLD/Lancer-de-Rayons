@@ -125,7 +125,7 @@ class Pixel
 
     Point centre;
     int largeur;
-    vector<int> rgb(3);
+    vector<float> rgb(3);
 
     public :
     Pixel();
