@@ -245,7 +245,7 @@ void point::print() const
 }
 
 
-/// somme de deux point
+/// somme de deux points
 point somme(const point& p, const point& q)
 {
     point r(p);
@@ -304,6 +304,36 @@ bool intersection(const point&A, const vecteur&u, const sphere&S)
     double delta = 4*pow(produit_scalaire(u,CA),2) - 4*pow(norme(u),2)*(pow(norme(CA),2) - pow(S.rayon,2));
     return (delta>=0);
 }
+
+///===============================================================
+///                        Classe rayon
+///===============================================================
+
+/// constructeur
+rayon::rayon(const point&p, const vecteur&v)
+{
+    origine = p;
+    direction = v;
+}
+
+/// constructeur par copie
+rayon::rayon(const rayon &R)
+{
+    origine = R.origine;
+    direction = R.direction;
+}
+
+/// opérateur =
+rayon & rayon::operator=(const rayon &R)
+{
+    origine = R.origine;
+    direction = R.direction;
+    return *this;
+}
+Écrire à Lancer de Rayons
+
+
+
 
 Grille::Grille(l,h,t)
 {
