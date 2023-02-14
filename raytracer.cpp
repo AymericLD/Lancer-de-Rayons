@@ -158,6 +158,21 @@ double produit_scalaire(const vecteur& u, const vecteur& v)
     for (int k=1; k<=u.n; k++) r+=u.val(k)*v.val(k);
     return r;
 }
+/// Produit vectoriel
+
+vecteur produit_vectoriel(const vecteur& u, const vecteur& v)
+{
+    if (u.n!=v.n)
+    {
+        cout << "produit vectoriel : dimension differentes" << endl;
+        exit(-1);
+    }
+    vecteur w(3);
+    w.val(0)=u.val(1)*v.val(2)-u.val(2)*v.val(1) ;  
+    w.val(1)=u.val(2)*v.val(0)-u.val(0)*v.val(2) ;
+    w.val(2)=u.val(0)*v.val(1)-u.val(1)*v.val(0) ;
+    return w;
+};
 
 /// norme d'un vecteur
 double norme(const vecteur& u) {return sqrt(produit_scalaire(u,u));}
@@ -393,8 +408,41 @@ Source intersection_source(Source S, Point Int)
 
 // Intersection avec un triangle (Algorithme de Moller-Trumbore)
 
-Point Triangle::Intersection(Ray R)
+bool RayIntersectsTriangle(vecteur rayOrigin, 
+                           vecteur rayVector, 
+                           Triangle* inTriangle,
+                           vecteur& outIntersectionPoint)
 {
-    
+    const float EPSILON = 0.0000001;
+    vecteur vertex0 = inTriangle->A;
+    vecteur vertex1 = inTriangle->B;  
+    vecteur vertex2 = inTriangle->C;
+    vecteur edge1, edge2, h, s, q;
+    float a,f,u,v;
+    edge1 = (vertex1,vertex0);
+    edge2 = (vertex2,vertex0);
+    h = produit_vectoriel(rayVector,edge2);
+    a = produit_scalaire(edge1,h);
+    if (a > -EPSILON && a < EPSILON)
+        return false;    // Le rayon est parallèle au triangle.
 
+    f = 1.0/a;
+    s = (rayOrigin,vertex0);
+    u = f * (produit_scalaire(s,h));
+    if (u < 0.0 || u > 1.0)
+        return false;
+    q = produit_vectoriel(s,edge1);
+    v =f*produit_scalaire(rayVector,q);
+    if (v < 0.0 || u + v > 1.0)
+        return false;
+
+    // On calcule t pour savoir ou le point d'intersection se situe sur la ligne.
+    float t = f * produit_scalaire(edge2,q);
+    if (t > EPSILON) // Intersection avec le rayon
+    {
+        outIntersectionPoint = somme(rayOrigin,rayVector.multiplie(f));
+        return true;
+    }
+    else // On a bien une intersection de droite, mais pas de rayon.
+        return false;
 }
