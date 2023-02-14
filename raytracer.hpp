@@ -160,7 +160,7 @@ class Grille
     Grille(l,h,t);
 };
 
-Grille::Grille(l,h,t)
+Grille::Grille(l,h,t) // Constructeur de la classe grille, on initialise une grille de dimension donnée avec des pixels ayant (0,0,0 pour valeur rgb)
 
 {
     l_p(l);
