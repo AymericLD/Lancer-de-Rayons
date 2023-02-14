@@ -15,6 +15,8 @@
 using namespace std;
 
 
+
+
 // Classe source
 
 class Source 
@@ -29,65 +31,6 @@ class Maillage
 {public:
     int N; // Nb de triangles
     vector<Triangle> Triangles(N);
-};
-
-class Point
-{
-    public:
-    double x;
-    double y;
-    double z;
-    Point() {x=0;y=0;z=0;};
-    Point (double X, double Y, double Z)
-    {
-        x=X;
-        y=Y;
-        z=Z;
-    };
-};
-
-
-class Ray
-{
-    public:
-    Point S;
-    double x,y,z;
-    Ray() 
-    {
-        S.x=0;
-        S.y=0;
-        S.z=0;
-        x=0;
-        y=0;
-        z=0;
-    }
-    Ray(Point P,double* v)
-    {
-        S=P;
-        x=v[1];
-        y=v[2];
-        z=v[3];
-    }
-};
-
-class Sphere
-{
-    public:
-    Point C;
-    double r;
-    Point intersection(Ray R);
-    Sphere()
-    {
-        C.x=0;
-        C.y=0;
-        C.z=0;
-        r=1;
-    }
-    Sphere (Point P,double R)
-    {
-        C=P;
-        r=R;
-    }
 };
 
 class Triangle
