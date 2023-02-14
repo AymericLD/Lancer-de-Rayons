@@ -147,12 +147,14 @@ Pixel::Pixel() : centre(p), largeur (0), rgb((0,0,0));
 class Grille
 {
 
-    public :
+    private :
     int l_p;
     int h_p;
     float taille;
     vector<Pixel>(n) g;
-    public:
+    
+    public :
+    
     Grille(l,h,t);
 };
 
