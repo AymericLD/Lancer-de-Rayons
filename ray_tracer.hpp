@@ -62,7 +62,7 @@ vecteur produit(const vecteur& u, double a);
 vecteur division(const vecteur& u, double a);
 double produit_scalaire(const vecteur& u, const vecteur& v);
 double norme(const vecteur& u);
-
+vecteur produit_vectoriel(const vecteur& u, const vecteur& v);
 class sphere
 {
 public:
