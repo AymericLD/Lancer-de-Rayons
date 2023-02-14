@@ -80,7 +80,7 @@ bool intersection(const point&A, const vecteur&u, const sphere&S);
 
 class Source 
 {public:
-    Point P;
+    point P;
     uint8_t r; // valeurs rgb
     uint8_t g;
     uint8_t b;
@@ -95,10 +95,10 @@ class Maillage
 class Triangle
 {
     public:
-    Point A;
-    Point B;
-    Point C;
-    Point Intersection(Ray R);
+    point A;
+    point B;
+    point C;
+    point Intersection(rayon R);
     Triangle ()
     {
         A.x=0;
@@ -111,7 +111,7 @@ class Triangle
         C.y=0;
         C.z=0;
     }
-    Triangle(Point a, Point b, Point c)
+    Triangle(point a, point b, point c)
     {
         A=a;
         B=b;
@@ -125,7 +125,7 @@ class Pixel
 {
     private :
 
-    Point centre;
+    point centre;
     int largeur;
     vector<float> rgb(3);
 
@@ -133,13 +133,13 @@ class Pixel
     Pixel();
     Rayon Pixel::rayon_pixel(vector<float>(3) direction)
     {
-        Rayon r;
+        rayon r;
         r.origine = Pixel.centre;
         r.dir = direction;
         return r;
     }
 };
-Point p;
+point p;
 p.x = 0;
 p.y = 0;
 p.z = 0;
