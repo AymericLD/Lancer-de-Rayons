@@ -91,3 +91,18 @@ void Grille::creation_image()
       outfile << table[i] << endl;
   }
 }
+
+void calcul_intensite(Pixel &P, Source &L, Vecteur &point_inter, Sphere &S, vector<double> &k, int &n)
+{
+  double ka = k[0]; double kd = k[1]; double kr = k[2];
+  Vecteur T = L.position - point_inter;
+  Vecteur N = S.normale(point_inter);
+  Vecteur O = P.centre - point_inter;
+
+  double ctheta=(T*N)/(sqrt(T*T)*sqrt(N*N));
+  double alpha=acos((O*N)/(sqrt(O*O)*sqrt(N*N))) - acos(ctheta); // faux
+
+  P.r = L.r * (kd*ctheta + kr*(pow(cos(alpha),n)));
+  P.g = L.g * (kd*ctheta + kr*(pow(cos(alpha),n)));
+  P.b = L.b * (kd*ctheta + kr*(pow(cos(alpha),n)));
+}
