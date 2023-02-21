@@ -60,7 +60,7 @@ ostream & operator <<(ostream & os, const Source &S)
 ///-------- Classe Pixel --------
 
 ostream & operator <<(ostream & os, const Pixel &P)
-{os<<"("<<+P.r<<","<<+P.g<<","<<+P.b<<")"; return os;}
+{os<<+P.r<<" "<<+P.g<<" "<<+P.b; return os;}
 
 ///------- Classe Grille --------
 
@@ -76,7 +76,7 @@ Grille::Grille(int h0, int l0, double t0): hauteur(h0), largeur(l0), taille_pixe
     table[i].taille = taille_pixel;
     table[i].r = 0;
     table[i].g = 0;
-    table[i].b = 0;
+    table[i].b = 255;
   }
 }
 
@@ -88,6 +88,6 @@ void Grille::creation_image()
   outfile << "255" << endl;
   int n = largeur*hauteur;
   for(int i=0; i<n; i++){
-      outfile << +table[i].r << " " << +table[i].g << " " << +table[i].b << endl;
+      outfile << table[i] << endl;
   }
 }
