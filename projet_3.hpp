@@ -95,7 +95,7 @@ public:
   uint8_t b;
   Pixel (double t0=1, uint8_t r0=0, uint8_t g0=0, uint8_t b0=0):taille(t0),r(r0),g(g0),b(b0){Vecteur P; centre=P;} //constructeur
   Pixel (const Vecteur&P, double t0=1, uint8_t r0=0, uint8_t g0=0, uint8_t b0=0):taille(t0),r(r0),g(g0),b(b0){centre=P;} //constructeur
-  void rgb() const {cout <<"(" << +r << "," << +g << "," << +b << ")" << endl;} //affichage
+  void rgb() const {cout << +r << " " << +g << " " << +b << endl;} //affichage
 };
 
 //fonctions externes
