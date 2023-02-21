@@ -384,23 +384,24 @@ for(int i; i<=n; i++){
 // Fonction de connection rayon-source
 
 
-Source intersection_source(Source S, Point Int)
+Source intersection_source(Source S, point Int, point pixel)
 {
-    vector<double> T=S.P-Int; 
-    Ray R(Int,T);
+    vecteur T=vecteur(S.P,Int); 
+    rayon R(Int,T);
     Source I(Int,k_a*I_a);
     for (int i=0;i<nb_objets;i++)
     {
         if (! Sphere[i].intersection(R)) 
         {
-            vector<double> N=Int-Sphere[i];
-            double theta=arcos(Th.)
-            I.r+
-            
-        }
-        
+            vecteur Normale(Int,Centre);
+            double ctheta=produit_scalaire(T,N)/(norme(T)*norme(N));
+            vecteur Observation(pixel,Int);
+            double alpha=acos(produit_scalaire(T,N)/(norme(T)*norme(N)));
+            I.r+=S.r*(k_d*ctheta+k_r*(cos(alpha)^n));
+            I.g+=S.g*(k_d*ctheta+k_r*(cos(alpha)^n));
+            I.b+=S.b*(k_d*ctheta+k_r*(cos(alpha)^n));          
+        }   
     }
-
 }
 
 
