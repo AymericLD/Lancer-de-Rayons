@@ -111,6 +111,7 @@ public:
   double taille_pixel;
   vector<Pixel> table;
   Grille(int h0=1, int l0=1, double t0=1); //constructeur
+  void creation_image();
 };
 
 #endif
