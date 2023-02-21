@@ -391,19 +391,20 @@ Source intersection_source(Source S, point Int, point pixel)
     Source I(Int,k_a*I_a);
     for (int i=0;i<nb_objets;i++)
     {
-        if (! Sphere[i].intersection(R)) 
+        if (Sphere[i].intersection(R)) 
         {
-            vecteur Normale(Int,Centre);
-            double theta=acos(produit_scalaire(T,N)/(norme(T)*norme(N)));
-            vecteur Observation(pixel,Int);
-            x=
-            point
-            double alpha=acos(produit_scalaire(T,N)/(norme(T)*norme(N)));
-            I.r+=S.r*(k_d*cos(theta)+k_r*(cos(alpha)^n));
-            I.g+=S.g*(k_d*cos(theta)+k_r*(cos(alpha)^n));
-            I.b+=S.b*(k_d*cos(theta)+k_r*(cos(alpha)^n));          
-        }   
+            return I;
+        }
     }
+    vecteur Normale(Int,Centre);
+    double theta=acos(produit_scalaire(T,N)/(norme(T)*norme(N)));
+    vecteur Obs(pixel,Int);
+    double beta=acos(produit_scalaire(Obs,N)/(norme(Obs)*norme(N)));
+    double alpha=abs(theta-beta);
+    I.r+=S.r*(k_d*cos(theta)+k_r*(cos(alpha)^n));
+    I.g+=S.g*(k_d*cos(theta)+k_r*(cos(alpha)^n));
+    I.b+=S.b*(k_d*cos(theta)+k_r*(cos(alpha)^n));  
+    return I
 }
 
 
