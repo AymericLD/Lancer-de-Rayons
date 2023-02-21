@@ -394,12 +394,14 @@ Source intersection_source(Source S, point Int, point pixel)
         if (! Sphere[i].intersection(R)) 
         {
             vecteur Normale(Int,Centre);
-            double ctheta=produit_scalaire(T,N)/(norme(T)*norme(N));
+            double theta=acos(produit_scalaire(T,N)/(norme(T)*norme(N)));
             vecteur Observation(pixel,Int);
+            x=
+            point
             double alpha=acos(produit_scalaire(T,N)/(norme(T)*norme(N)));
-            I.r+=S.r*(k_d*ctheta+k_r*(cos(alpha)^n));
-            I.g+=S.g*(k_d*ctheta+k_r*(cos(alpha)^n));
-            I.b+=S.b*(k_d*ctheta+k_r*(cos(alpha)^n));          
+            I.r+=S.r*(k_d*cos(theta)+k_r*(cos(alpha)^n));
+            I.g+=S.g*(k_d*cos(theta)+k_r*(cos(alpha)^n));
+            I.b+=S.b*(k_d*cos(theta)+k_r*(cos(alpha)^n));          
         }   
     }
 }
