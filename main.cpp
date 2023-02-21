@@ -103,15 +103,46 @@ int main()
     Vecteur P(2,6,5); //position de la source lumineuse
     Source L(P,255,255,255); //lumiere blanche
     Grille G(3,3,1); //grille de pixels
-    G.creation_image();
+    Vecteur e1(0,0,1); //direction de tous les rayons partant des pixels
+    vector<double> k = {1,1,1,1}; //ka, kd, kr, n
+
     for (auto p=G.table.begin();p!=G.table.end();p++)
     {
+      Rayon R(p->centre,e1); //rayon partant du pixel
+
+      Sphere sphere_inter;
+      Vecteur point_inter(0,0,1000);
+      bool intersect = false;
       for (auto s=scene.begin();s!=scene.end();s++)
       {
-        //cout << s->centre << endl;
+      if (intersection(R,*s))
+        {
+          intersect = true;
+          Vecteur new_point_inter = intersection_point(R,*s);
+
+          if ((new_point_inter-p->centre)*(new_point_inter- p->centre) <= (point_inter-p->centre)*(point_inter-p->centre)) //lequel est le plus proche
+          {
+            point_inter = new_point_inter;
+            sphere_inter = *s;
+          }
+        }
       }
-      //cout << *p << endl;
+      if (!intersect) {continue;}
+
+      Rayon R2(point_inter,L.position - point_inter); //shadow ray
+      bool obstacle = false;
+
+      for (auto s=scene.begin();s!=scene.end();s++)
+      {
+      if (intersection(R2,*s))
+        {
+          obstacle = true;
+        }
+      }
+
+      if (!obstacle) {continue;}
     }
+    G.creation_image();
   }
   return 0;
 }
