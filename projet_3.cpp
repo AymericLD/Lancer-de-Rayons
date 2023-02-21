@@ -79,3 +79,15 @@ Grille::Grille(int h0, int l0, double t0): hauteur(h0), largeur(l0), taille_pixe
     table[i].b = 0;
   }
 }
+
+void Grille::creation_image()
+{
+  ofstream outfile ("scene.ppm");
+  outfile << "P3" << endl;
+  outfile << largeur << " " << hauteur << endl;
+  outfile << "255" << endl;
+  int n = largeur*hauteur;
+  for(int i=0; i<n; i++){
+      outfile << +table[i].r << " " << +table[i].g << " " << +table[i].b << endl;
+  }
+}
