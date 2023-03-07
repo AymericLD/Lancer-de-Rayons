@@ -14,6 +14,7 @@ Vecteur operator/ (const Vecteur & P,double a)
 {Vecteur R(P); return R/=a;}
 double operator* (const Vecteur &P, const Vecteur &Q)
 {return P.x*Q.x + P.y*Q.y + P.z*Q.z;}
+Vecteur operator % (const Vecteur&, const Vecteur&); //produit vectoriel
 bool operator ==(const Vecteur & P,const Vecteur &Q)
 {return (P.x==Q.x) && (P.y==Q.y) && (P.z==Q.z);}
 bool operator !=(const Vecteur & P,const Vecteur &Q)
