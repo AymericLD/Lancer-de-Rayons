@@ -33,6 +33,7 @@ Vecteur operator * (const Vecteur& ,double a);
 Vecteur operator * (double a,const Vecteur & );
 Vecteur operator / (const Vecteur& ,double a);
 double operator * (const Vecteur&, const Vecteur&); //produit scalaire
+Vecteur operator % (const Vecteur&, const Vecteur&); //produit vectoriel
 bool operator == (const Vecteur& ,const Vecteur& );
 bool operator != (const Vecteur& ,const Vecteur& );
 bool operator<(const Vecteur&, const Vecteur&);
