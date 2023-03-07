@@ -14,7 +14,13 @@ Vecteur operator/ (const Vecteur & P,double a)
 {Vecteur R(P); return R/=a;}
 double operator* (const Vecteur &P, const Vecteur &Q)
 {return P.x*Q.x + P.y*Q.y + P.z*Q.z;}
-Vecteur operator % (const Vecteur&, const Vecteur&); //produit vectoriel
+Vecteur operator % (const Vecteur &u, const Vecteur &v)
+{
+  Vecteur w(0,0,0);
+  w.x=u.y*v.z-u.z*v.y;
+  w.y=u.z*v.x-u.x*v.z;
+  w.z=u.x*v.y-u.y*v.x;
+  return w;}
 bool operator ==(const Vecteur & P,const Vecteur &Q)
 {return (P.x==Q.x) && (P.y==Q.y) && (P.z==Q.z);}
 bool operator !=(const Vecteur & P,const Vecteur &Q)
