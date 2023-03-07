@@ -95,11 +95,13 @@ void Grille::creation_image()
 void calcul_intensite(Pixel &P, Source &L, Vecteur &point_inter, Sphere &S, vector<double> &k, int &n)
 {
   double ka = k[0]; double kd = k[1]; double kr = k[2];
-  Vecteur T = L.position - point_inter;
-  Vecteur N = S.normale(point_inter);
-  Vecteur O = P.centre - point_inter;
+  Vecteur T = L.position - point_inter; // Direction entre point d'intersection et source
+  Vecteur N = S.normale(point_inter); // Normale à la sphère au point d'intersection
+  Vecteur O = P.centre - point_inter; // Direction d'observation
 
-  double ctheta=(T*N)/(sqrt(T*T)*sqrt(N*N));
+  double theta=acos((T*N)/(sqrt(T*T)*sqrt(N*N)));
+  // Rotation de T par rapport à N d'un angle 2*theta par la formule de Rodrigues
+  Vecteur U=ctheta*T+
   double alpha=acos((O*N)/(sqrt(O*O)*sqrt(N*N))) - acos(ctheta); // faux
 
   P.r = L.r * (kd*ctheta + kr*(pow(cos(alpha),n)));
