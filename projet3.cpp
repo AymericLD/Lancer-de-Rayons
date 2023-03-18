@@ -1,4 +1,5 @@
-#include "projet_3.hpp"
+#include "lancer_rayon.h"
+#include "math.h"
 
 ///-------- Classe Vecteur 3D --------
 
@@ -61,11 +62,34 @@ Vecteur intersection_point(const Rayon&R, const Sphere&S)
   return P;
 }
 
+bool intersection2(const Rayon&R, const Sphere&S)
+{
+  Vecteur E = R.origine - S.centre;
+  double a = pow(sqrt(R.direction*R.direction),2);
+//  cout << "a=" << a;
+  double b = 2*R.direction*E;
+//  cout << ", b=" << b;
+  double c = pow(sqrt(E*E),2) - pow(S.rayon,2);
+//  cout << ", c=" << c;
+  double delta = pow(b,2) - 4*a*c;
+//  cout << ", delta=" << delta << endl;
+  return (delta = 0);
+}
+
 ///--------Classe Sphère----------
 
 bool operator != (const Sphere& S1 ,const Sphere& S2)
 {
   if (S1.centre!=S2.centre || S1.rayon!=S2.rayon)
+  {
+    return true;
+  }
+  return false;
+}
+
+bool operator == (const Sphere& S1 ,const Sphere& S2)
+{
+  if (S1.centre==S2.centre && S1.rayon==S2.rayon)
   {
     return true;
   }
@@ -91,12 +115,12 @@ Grille::Grille(int h0, int l0, double t0): hauteur(h0), largeur(l0), taille_pixe
   for (int i=0;i<n;i++)
   {
     table[i].centre.x = taille_pixel/2 + (i%largeur)*taille_pixel;
-    table[i].centre.y = taille_pixel/2 + (i/largeur)*taille_pixel;
+    table[i].centre.y = taille_pixel/2 + floor(i/largeur)*taille_pixel;
     table[i].centre.z = 0;
     table[i].taille = taille_pixel;
     table[i].r = 0;
     table[i].g = 0;
-    table[i].b = 255;
+    table[i].b = 0;
   }
 }
 
@@ -108,7 +132,7 @@ void Grille::creation_image()
   outfile << "255" << endl;
   int n = largeur*hauteur;
   for(int i=0; i<n; i++){
-      outfile << table[i] << endl;
+      outfile << table[i].r << " " << table[i].g << " " << table[i].b << endl;
   }
 }
 
@@ -123,11 +147,12 @@ void calcul_intensite(Pixel &P, Source &L, Vecteur &point_inter, Sphere &S, vect
 
   // Rotation de T par rapport à N d'un angle 2*theta par la formule de Rodrigues
 
-  Vecteur U=cos(theta)*T+sin(theta)*(N%T)+(1-cos(theta))*(N*T)*N;
+  Vecteur U=cos(2*theta)*T+sin(2*theta)*(N%T)+(1-cos(2*theta))*(N*T)*N;
 
-  double alpha=acos((O*U)/(sqrt(O*O)*sqrt(N*U))); 
+  double alpha=acos((O*U)/(sqrt(O*O)*sqrt(U*U)));
 
-  P.r = L.r * (kd*cos(theta) + kr*(pow(cos(alpha),n)));
-  P.g = L.g * (kd*cos(theta) + kr*(pow(cos(alpha),n)));
-  P.b = L.b * (kd*cos(theta) + kr*(pow(cos(alpha),n)));
+  P.r = abs(L.r * (kd*cos(theta) + kr*(pow(cos(alpha),n))));
+  P.g = abs(L.g * (kd*cos(theta) + kr*(pow(cos(alpha),n))));
+  P.b = abs(L.b * (kd*cos(theta) + kr*(pow(cos(alpha),n))));
+
 }
