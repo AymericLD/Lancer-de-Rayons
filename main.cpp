@@ -1,5 +1,5 @@
-#include "projet_3.hpp"
-#include "projet3.cpp"
+#include "lancer_rayon.h"
+#include "lancer_rayon.cpp"
 
 int main()
 {
@@ -89,23 +89,26 @@ int main()
     cout << "Liste positions pixels:" << endl;
     for (int i=0;i<k;i++)
     {
-      cout << G.table[i].centre << " ";
+      cout << G.table[i].r << " " << G.table[i].g << " " << G.table[i].b << endl;
     }
     cout << "\n" << endl;
+    G.creation_image();
   }
 */
+
+
   {
-    Vecteur O(2,2,5); //centre de la sphere
+    Vecteur O(2.5,2.5,5); //centre de la sphere
     Sphere S(O); //sphere de centre O et de rayon 1
     vector<Sphere> scene(1); //contient tous les objets de la scene
     scene[0] = S;
-    Vecteur P(2,6,5); //position de la source lumineuse
+    Vecteur P(2.5,20,1); //position de la source lumineuse
     Source L(P,255,255,255); //lumiere blanche
-    Grille G(3,3,1); //grille de pixels
+    Grille G(100,100,0.1); //grille de pixels
     Vecteur e1(0,0,1); //direction de tous les rayons partant des pixels
-    vector<double> k = {1,1,1}; //ka, kd, kr
-    int n=1;
-
+    vector<double> k = {1,0.6,0.8}; //ka, kd, kr
+    int n = 1;
+    int a = 1;
     for (auto p=G.table.begin();p!=G.table.end();p++)
     {
       Rayon R(p->centre,e1); //rayon partant du pixel
@@ -119,7 +122,9 @@ int main()
         {
           intersect = true;
           Vecteur new_point_inter = intersection_point(R,*s);
-
+          //a = a+1;
+          //cout << new_point_inter*new_point_inter <<endl;
+          //cout << a << endl;
           if ((new_point_inter-p->centre)*(new_point_inter- p->centre) <= (point_inter-p->centre)*(point_inter-p->centre)) //lequel est le plus proche
           {
             point_inter = new_point_inter;
@@ -127,23 +132,40 @@ int main()
           }
         }
       }
-      if (!intersect) {continue;} // Ca sert à quoi ?
-
+      if (!intersect) {continue;}
       Rayon R2(point_inter,L.position - point_inter); //shadow ray
       bool obstacle = false;
 
       for (auto s=scene.begin();s!=scene.end();s++)
-      {
-      if (intersection(R2,*s) && *s!=sphere_inter)
         {
-          obstacle = true;
-          calcul_intensite(*p,L,point_inter,*s,k,n);
-        }
+        if (intersection(R2,*s) && *s!=sphere_inter) //vérifier si nouveau point appartient au meme objet
+            {
+                obstacle = true;
+                continue;
+            }
+
+        if (intersection(R2, *s) && *s==sphere_inter)
+
+            {
+              Rayon R3(sphere_inter.centre, point_inter-sphere_inter.centre);
+              if (R3.direction*R2.direction>=0)
+                {
+                obstacle = true;
+                continue;
+                }
+            }
+
+      if (!obstacle) {
+        calcul_intensite(*p,L,point_inter,sphere_inter,k,n);
+
       }
 
-      if (!obstacle) {continue;}
     }
     G.creation_image();
+
   }
+
   return 0;
+  }
 }
+
