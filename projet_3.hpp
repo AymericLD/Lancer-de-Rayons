@@ -1,5 +1,6 @@
-#ifndef projet_3_hpp
-#define projet_3_hpp
+#ifndef lancer_rayon_h
+#define lancer_rayon_h
+
 #include <iostream>
 #include <fstream>
 #include <cmath>
@@ -72,9 +73,9 @@ class Source
 {
 public:
   Vecteur position;
-  uint8_t r;
-  uint8_t g;
-  uint8_t b;
+  int r;
+  int g;
+  int b;
   Source (uint8_t r0=0, uint8_t g0=0, uint8_t b0=0):r(r0),g(g0),b(b0){Vecteur P; position=P;}
   Source (const Vecteur&P, uint8_t r0=0, uint8_t g0=0, uint8_t b0=0):r(r0),g(g0),b(b0){position=P;} //constructeur
   void rgb() const {cout <<"(" << +r << "," << +g << "," << +b << ")" << endl;} //affichage
@@ -90,11 +91,11 @@ class Pixel
 public:
   Vecteur centre;
   double taille;
-  uint8_t r;
-  uint8_t g;
-  uint8_t b;
-  Pixel (double t0=1, uint8_t r0=0, uint8_t g0=0, uint8_t b0=0):taille(t0),r(r0),g(g0),b(b0){Vecteur P; centre=P;} //constructeur
-  Pixel (const Vecteur&P, double t0=1, uint8_t r0=0, uint8_t g0=0, uint8_t b0=0):taille(t0),r(r0),g(g0),b(b0){centre=P;} //constructeur
+  double r;
+  double g;
+  double b;
+  //Pixel (double t0=1, float r0=0,  float g0=0, float b0=0):taille(t0),r(r0),g(g0),b(b0){Vecteur P; centre=P;} //constructeur
+  //Pixel (float Vecteur&P, float t0=1, float r0=0, float g0=0, float b0=0):taille(t0),r(r0),g(g0),b(b0){centre=P;} //constructeur
   void rgb() const {cout << +r << " " << +g << " " << +b << endl;} //affichage
 };
 
@@ -114,4 +115,4 @@ public:
   void creation_image();
 };
 
-#endif
+#endif // LANCER_RAYON_H_INCLUDED
