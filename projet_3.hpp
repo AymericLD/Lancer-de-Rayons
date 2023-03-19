@@ -46,11 +46,26 @@ class Sphere
 public:
   Vecteur centre;
   double rayon;
-  Sphere(double r=1):rayon(r){Vecteur P; centre=P;} //constructeur
-  Sphere(const Vecteur&P, double r=1):rayon(r){centre=P;} //constructeur
+  Sphere(double r=2):rayon(r){Vecteur P; centre=P;} //constructeur
+  Sphere(const Vecteur&P, double r=2):rayon(r){centre=P;} //constructeur
   Vecteur normale(const Vecteur &P) {Vecteur Q = P-centre;return Q;}
 };
 
+///-------- Classe Triangle -------
+
+class Triangle
+{
+public :
+    Vecteur coord;
+};
+
+///-------- Classe Maillage ------
+
+class Maillage
+{
+public :
+    vector<Triangle> m;
+};
 ///-------- Classe Rayon --------
 
 class Rayon
