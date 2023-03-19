@@ -1,4 +1,4 @@
-#include "lancer_rayon.h"
+ #include "lancer_rayon.h"
 #include "lancer_rayon.cpp"
 
 int main()
@@ -98,15 +98,19 @@ int main()
 
 
   {
-    Vecteur O(2.5,2.5,5); //centre de la sphere
+    Vecteur O(5,6,5); //centre de la sphere
+    //Vecteur O2(5.5,2.5,5);
     Sphere S(O); //sphere de centre O et de rayon 1
+    //Sphere S2(O2);
     vector<Sphere> scene(1); //contient tous les objets de la scene
     scene[0] = S;
-    Vecteur P(2.5,20,1); //position de la source lumineuse
+    //scene[1] = S2;
+    Vecteur P(1,-3,7); //position de la source lumineuse
     Source L(P,255,255,255); //lumiere blanche
     Grille G(100,100,0.1); //grille de pixels
     Vecteur e1(0,0,1); //direction de tous les rayons partant des pixels
-    vector<double> k = {1,0.6,0.8}; //ka, kd, kr
+    vector<double> k = {1,sqrt(2)/2,sqrt(2)/2}; //ka, kd, kr
+
     int n = 1;
     int a = 1;
     for (auto p=G.table.begin();p!=G.table.end();p++)
@@ -148,7 +152,7 @@ int main()
 
             {
               Rayon R3(sphere_inter.centre, point_inter-sphere_inter.centre);
-              if (R3.direction*R2.direction>=0)
+              if (R3.direction*R2.direction>0)
                 {
                 obstacle = true;
                 continue;
@@ -157,7 +161,6 @@ int main()
 
       if (!obstacle) {
         calcul_intensite(*p,L,point_inter,sphere_inter,k,n);
-
       }
 
     }
@@ -168,4 +171,10 @@ int main()
   return 0;
   }
 }
+
+
+/*
+
+
+*/
 
