@@ -151,8 +151,9 @@ void calcul_intensite(Pixel &P, Source &L, Vecteur &point_inter, Sphere &S, vect
 
   double alpha=acos((O*U)/(sqrt(O*O)*sqrt(U*U)));
 
-  P.r = abs(L.r * (kd*cos(theta) + kr*(pow(cos(alpha),n))));
-  P.g = abs(L.g * (kd*cos(theta) + kr*(pow(cos(alpha),n))));
-  P.b = abs(L.b * (kd*cos(theta) + kr*(pow(cos(alpha),n))));
+  P.r = min(abs(L.r * (kd*cos(theta) + kr*(pow(cos(alpha),n)))),255.0);
+  P.g = min(abs(L.g * (kd*cos(theta) + kr*(pow(cos(alpha),n)))),255.0);
+  P.b = min(abs(L.b * (kd*cos(theta) + kr*(pow(cos(alpha),n)))),255.0);
+
 
 }
