@@ -1,0 +1,193 @@
+#include "lancer_rayon.h"
+#include "lancer_rayon.cpp"
+#include <sstream>
+
+int main()
+{
+/*
+  {
+    //test output file
+    ofstream myfile;
+    myfile.open ("example.txt");
+    myfile << "Writing this to a file.\n";
+    myfile << "Writing some more.\n";
+    myfile.close();
+  }
+*/
+/*
+  {
+    //test de la classe Vecteur
+    Vecteur O(1,1,0), P(1,0,-2), Q(0,3,1), R;
+    cout << "O=" << O << " P=" << P << " Q=" << Q << " R=" << R << endl;
+    cout << "O + P + 2.*Q - R/2.=" << (O+P+2.*Q-R/2.) << endl;
+    cout << "O!=P -> " << (O!=P?"true":"false") << " O==P -> " << (O==P?"true":"false") << endl;
+    cout << "O*P=" << O*P << "\n" << endl;
+  }
+*/
+/*
+  {
+    //test de la classe Sphere
+    Sphere S;
+    cout << "S.centre=" << S.centre << " S.rayon=" << S.rayon << endl;
+  }
+*/
+/*
+  {
+    //test de la classe Rayon
+    Vecteur O(1,1,0), P(1,0,-2);
+    Rayon I(O,P);
+    cout << "I.origine=" << I.origine << " I.direction=" << I.direction << "\n" << endl;
+  }
+*/
+/*
+  {
+    //test de la fonction intersection
+    Vecteur O(0,2), e1(1,0), e2(3,2), P(6,2), Q(5,5);
+    Sphere S1(P), S2(Q);
+    Rayon R1(O,e1), R2(O,e2);
+    cout << "R1 intersects S1 -> " << (intersection(R1,S1)?"true":"false") << endl;
+    cout << "R1 intersects S2 -> " << (intersection(R1,S2)?"true":"false") << endl;
+    cout << "R2 intersects S1 -> " << (intersection(R2,S1)?"true":"false") << endl;
+    cout << "R2 intersects S2 -> " << (intersection(R2,S2)?"true":"false") << "\n" << endl;
+    cout << "R1 intersects S1 at point " << intersection_point(R1,S1) << endl;
+    cout << "R2 intersects S2 at point " << intersection_point(R2,S2) << "\n" << endl;
+  }
+*/
+/*
+  {
+    //test de la class Source
+    Vecteur O, P(1,1,1);
+    uint8_t R = 2;
+    cout << R << endl;
+    cout << +R << "\n" << endl;
+    Source S, T(P,8,75,255);
+    cout << "S.position=" << S.position << endl;
+    cout << "T.position=" << T.position << endl;
+    cout << "S.rgb()=" << S << endl;
+    cout << "T.rgb()=";
+    T.rgb();
+    cout << "\n";
+  }
+*/
+/*
+  {
+    //test de la classe Pixel
+    Vecteur O(1,0,-1);
+    Pixel P;
+    Pixel Q(O, 2., 15, 65, 115);
+    cout << "P.centre=" << P.centre << " P.taille=" << P.taille << " P.rgb()=" << P << endl;
+    cout << "Q.centre=" << Q.centre << " Q.taille=" << Q.taille << " Q.rgb()=";
+    Q.rgb();
+    cout << "\n";
+  }
+*/
+/*
+  {
+    //test de la classe Grille
+    Grille G(3,2,1.);
+    int k = G.table.size();
+    cout << "Nombre de pixels = " << k << endl;
+    cout << "Liste positions pixels:" << endl;
+    for (int i=0;i<k;i++)
+    {
+      cout << G.table[i].r << " " << G.table[i].g << " " << G.table[i].b << endl;
+    }
+    cout << "\n" << endl;
+    G.creation_image();
+  }
+*/
+
+
+///Lecture du fichier texte
+
+    /*std::ifstream file("maillage.txt", std::ios::in);
+    std::string line;
+    Maillage M;
+    int i = 0;
+    if (file.is_open()) {
+        int i = 0;
+        while (std::getline(file, line))
+        {
+            Vecteur x,y,z; //ATTENTION : bien revoir le format du fichier texte
+            std::cout << x << " " << y << " " << z << std::endl;
+            Triangle T;
+            T.s.push_back(x);
+            T.s.push_back(y);
+            T.s.push_back(z);
+            M.t[i] = T;
+            i+=1;
+            cout << T.s[0].x << endl;
+
+        }
+        file.close();
+    }
+    else
+    {
+        std::cout << "Erreur: impossible d'ouvrir le fichier\n";
+    }
+*/
+    Triangle test;
+    test.s[0] = Vecteur(0,0,0);
+    cout << "salut" << endl;
+    test.s[1] = (1,1,1);
+    test.s[2] = (4,0.2,6);
+    Maillage M;
+    M.t[0] = test;
+    M.nombre = 1;
+    M.translation();
+    Maillage scene;
+    scene = M;
+    //scene[1] = S2;
+    Vecteur P(1,-3,7); //position de la source lumineuse
+    Source L(P,255,255,255); //lumiere blanche
+    Grille G(100,100,0.1); //grille de pixels
+    Vecteur e1(0,0,1); //direction de tous les rayons partant des pixels
+    vector<double> k = {1,sqrt(2)/2,sqrt(2)/2}; //ka, kd, kr
+    int n = 1;
+    int a = 1;
+    for (auto p=G.table.begin();p!=G.table.end();p++)
+    {
+      Rayon R(p->centre,e1);
+      Triangle triangle_inter;
+      Vecteur point_inter(0,0,1000);
+      bool intersect = false;
+      a = a+1;
+      cout << a << endl;
+      for (auto s=scene.t.begin();s!=scene.t.end();s++)
+      {
+      if (intersection_triangle_bool(R,*s))
+        {
+          intersect = true;
+          Vecteur new_point_inter = intersection_triangle_point(R,*s);
+          if ((new_point_inter-p->centre)*(new_point_inter- p->centre) <= (point_inter-p->centre)*(point_inter-p->centre)) //lequel est le plus proche
+          {
+            point_inter = new_point_inter;
+            triangle_inter = *s;
+          }
+        }
+      }
+      if (!intersect) {continue;}
+      Rayon R2(point_inter,L.position - point_inter); //shadow ray
+      bool obstacle = false;
+
+      for (auto s=scene.t.begin();s!=scene.t.end();s++)
+        {
+        if (intersection_triangle_bool(R2,*s) && *s!=triangle_inter) //vérifier si nouveau point appartient au meme objet
+            {
+                obstacle = true;
+                continue;
+            }
+
+      if (!obstacle) {
+        calcul_intensite_triangle(*p,L,point_inter,triangle_inter,k,n); //a redefinir
+      }
+
+    }
+    G.creation_image();
+    }
+
+  return 0;
+
+}
+
+// Adaptder le calcul d'intensité, trouver une autre condition pour les triangles intersectants mais pas éclairés, corriger std, fichier maillage
