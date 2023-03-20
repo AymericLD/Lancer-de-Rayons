@@ -100,47 +100,95 @@ int main()
 
 ///Lecture du fichier texte
 
-    /*std::ifstream file("maillage.txt", std::ios::in);
-    std::string line;
-    Maillage M;
-    int i = 0;
-    if (file.is_open()) {
-        int i = 0;
-        while (std::getline(file, line))
-        {
-            Vecteur x,y,z; //ATTENTION : bien revoir le format du fichier texte
-            std::cout << x << " " << y << " " << z << std::endl;
-            Triangle T;
-            T.s.push_back(x);
-            T.s.push_back(y);
-            T.s.push_back(z);
-            M.t[i] = T;
-            i+=1;
-            cout << T.s[0].x << endl;
+/*
+    string filename = "geomCarre.msh"; // le nom de votre fichier gmsh
+    ifstream file(filename);
+    string line;
+    bool read_nodes = false;
+    bool read_triangles = false;
+    vector<vector<double>> nodes;
+    vector<vector<double>> triangles;
 
+    // Lecture du fichier
+    while (getline(file, line)) {
+        if (line.find("$Nodes") != string::npos) {
+            read_nodes = true;
+        } else if (line.find("$EndNodes") != string::npos) {
+            read_nodes = false;
+        } else if (line.find("$Elements") != string::npos) {
+            read_triangles = true;
+        } else if (line.find("$EndElements") != string::npos) {
+            read_triangles = false;
+        } else if (read_nodes) {
+            // Lire les noeuds si nous sommes dans la section $Nodes
+            // Ignorer la première ligne
+            if (line[0] != '$') {
+                stringstream ss(line);
+                int node_id;
+                double x, y, z;
+                ss >> node_id >> x >> y >> z;
+                // Ajouter les coordonnées des nœuds à notre vecteur de nœuds
+                nodes.push_back({x, y, z});
+            }
+        } else if (read_triangles) {
+            // Lire les triangles si nous sommes dans la section $Elements
+            // Ignorer la première ligne
+            if (line[0] != '$') {
+                stringstream ss(line);
+                int elem_id, elem_type, num_tags, n1, n2, n3,a,b;
+                ss >> elem_id >> elem_type >> num_tags;
+                // Vérifier si c'est un triangle (type 2) et récupérer les nœuds
+                if (elem_type == 2) {
+                    ss >> a >> b >> n1 >> n2 >> n3;
+                    // Ajouter les coordonnées des nœuds du triangle à notre vecteur de triangles
+                    triangles.push_back(nodes[n1-1]);
+                    triangles.push_back(nodes[n2-1]);
+                    triangles.push_back(nodes[n3-1]);
+                }
+            }
         }
-        file.close();
     }
-    else
-    {
-        std::cout << "Erreur: impossible d'ouvrir le fichier\n";
-    }
-*/
-    Triangle test;
-    test.s[0] = Vecteur(0,0,0);
-    cout << "salut" << endl;
-    test.s[1] = (1,1,1);
-    test.s[2] = (4,0.2,6);
+
     Maillage M;
-    M.t[0] = test;
+
+    // Afficher les coordonnées des nœuds de chaque triangle
+    for (int i = 0; i < triangles.size(); i += 3) {
+        Vecteur sommet1(triangles[i][0],triangles[i][1],triangles[i][2]);
+        Vecteur sommet2(triangles[i+1][0],triangles[i+1][1],triangles[i+1][2]);
+        Vecteur sommet3(triangles[i+2][0],triangles[i+2][1],triangles[i+2][2]);
+        Triangle tri;
+        tri.s.resize(3);
+        tri.s[0] = sommet1;
+        tri.s[1] = sommet2;
+        tri.s[2] = sommet3;
+        M.t.push_back(tri);
+    }
+    for (int i = 0; i < triangles.size()/3; i += 1) {
+        cout << M.t[i].s[0] << endl;
+    }
+
+    */
+    Triangle test1,test2;
+    test1.s.resize(3);
+    test2.s.resize(3);
+    /*test1.s[0] = Vecteur(0,0,0);
+    test1.s[1] = Vecteur(0,1,0);
+    test1.s[2] = Vecteur(0,0,1);
+    */
+    test2.s[0] = Vecteur(6,0,1);
+    test2.s[1] = Vecteur(2,3,1);
+    test2.s[2] = Vecteur(4,3,1);
+    Maillage M;
+    M.t.resize(1);
+    M.t[0] = test2;
+    //M.t[1] = test2;
     M.nombre = 1;
     M.translation();
     Maillage scene;
     scene = M;
-    //scene[1] = S2;
-    Vecteur P(1,-3,7); //position de la source lumineuse
-    Source L(P,255,255,255); //lumiere blanche
-    Grille G(100,100,0.1); //grille de pixels
+    Vecteur P(5,5,4); //position de la source lumineuse
+    Source L(P,250,250,250); //lumiere blanche
+    Grille G(150,150,0.09); //grille de pixels
     Vecteur e1(0,0,1); //direction de tous les rayons partant des pixels
     vector<double> k = {1,sqrt(2)/2,sqrt(2)/2}; //ka, kd, kr
     int n = 1;
@@ -151,12 +199,12 @@ int main()
       Triangle triangle_inter;
       Vecteur point_inter(0,0,1000);
       bool intersect = false;
-      a = a+1;
-      cout << a << endl;
       for (auto s=scene.t.begin();s!=scene.t.end();s++)
       {
       if (intersection_triangle_bool(R,*s))
         {
+          a += 1;
+          cout << a << endl;
           intersect = true;
           Vecteur new_point_inter = intersection_triangle_point(R,*s);
           if ((new_point_inter-p->centre)*(new_point_inter- p->centre) <= (point_inter-p->centre)*(point_inter-p->centre)) //lequel est le plus proche
@@ -185,7 +233,6 @@ int main()
     }
     G.creation_image();
     }
-
   return 0;
 
 }
