@@ -10,3 +10,15 @@ Il vous suffit de prendre tous les codes qui contiennent le mot clef "sphere" da
 
 //// Ray tracing pour des triangles ////
 
+Vous pourrez modifiez la position des triangles après tout le bloc de commentaire. C'est normal si le code prend pas mal de temps (autour de 1 voir 2 min). Il est affiché le nombre de pixels colorés sur la cmd pendant l'algorithme.
+
+//// Ray tracing pour un maillage ////
+
+Il faut que vous ayez "geomCarre.msh" sur le fochier où vous executez le code.
+
+
+Vous pourrez dans tous les cas :
+
+- Modifier la position de la source
+- Modifier son intensité lumineuse
+- Modifier les coefficients spécifiques k_a (nous ne mettons pas d'intensité ambiante donc c'est inutile), k_d et k_r.
